@@ -16,6 +16,7 @@
     "test-all": "npm run check-types && npm run check-format && npm run check-lint && npm run build"
   },
   "dependencies": {
+    "chance": "^1.1.11",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18"
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.0",
+    "@types/chance": "^1.1.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
