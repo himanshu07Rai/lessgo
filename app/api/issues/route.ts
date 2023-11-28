@@ -2,18 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import prisma from '@/prisma/client';
-
-enum PriorityType {
-  LOW,
-  MEDIUM,
-  HIGH,
-}
-
-const createIssueSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  priority: z.nativeEnum(PriorityType),
-});
+import { createIssueSchema } from '@/utils/validationSchemas';
 
 export async function GET(req: NextRequest, res: NextResponse) {
   return new Response(JSON.stringify({ name: 'John Doe' }), {

@@ -11,3 +11,9 @@ export type PostDataType = {
   title: string;
   body: string;
 };
+
+export enum PriorityType {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+}

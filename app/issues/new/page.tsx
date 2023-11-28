@@ -1,38 +1,43 @@
 'use client';
 import React from 'react';
-import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { PriorityType } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createIssueSchema } from '@/utils/validationSchemas';
+import { z } from 'zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
+import Spinner from '@/app/components/Spinner';
 
-enum Priority {
-  Low,
-  Medium,
-  High,
-}
-
-type IssueForm = {
-  title: string;
-  description: string;
-  priority: number;
-};
+type IssueForm = z.infer<typeof createIssueSchema>;
 
 const page = () => {
   const router = useRouter();
-  const { register, handleSubmit, control } = useForm<IssueForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IssueForm>({
+    resolver: zodResolver(createIssueSchema),
+  });
   const handleNewIssue = async (data: IssueForm) => {
     try {
-      data.priority = parseInt(Priority[data.priority], 10);
+      setIsSubmitting(true);
       await axios.post('/api/issues', data);
       router.push('/issues');
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
   return (
-    <div>
+    <div className="max-w-xl pl-10">
       <h1 className="text-3xl font-bold">Create Issue</h1>
       <form className="flex flex-col space-y-4" onSubmit={handleSubmit(handleNewIssue)}>
         <input
@@ -40,23 +45,22 @@ const page = () => {
           placeholder="Title"
           {...register('title')}
         />
+        {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
+        <label>Priority</label>
         <select className="border border-gray-300 rounded-md p-2" {...register('priority')}>
-          <option>Low</option>
-          <option>Medium</option>
-          <option>High</option>
+          <option>{PriorityType.LOW}</option>
+          <option>{PriorityType.MEDIUM}</option>
+          <option>{PriorityType.HIGH}</option>
         </select>
-        <Controller
-          name="description"
-          control={control}
-          render={({ field }) => (
-            <SimpleMDE
-              className="border border-gray-300 rounded-md p-2"
-              placeholder="Description"
-              {...field}
-            />
-          )}
+        {errors.priority && <ErrorMessage>{errors.priority.message}</ErrorMessage>}
+        <textarea
+          className="border border-gray-300 rounded-md p-2"
+          placeholder="Description"
+          {...register('description')}
         />
+        {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
         <button className="bg-blue-500 text-white rounded-md p-2">Create Issue</button>
+        {isSubmitting && <Spinner />}
       </form>
     </div>
   );
