@@ -16,6 +16,7 @@
     "test-all": "npm run check-types && npm run check-format && npm run check-lint && npm run build"
   },
   "dependencies": {
+    "@prisma/client": "^5.6.0",
     "chance": "^1.1.11",
     "classnames": "^2.3.2",
     "next": "14.0.1",
