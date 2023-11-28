@@ -20,4 +20,4 @@ const generateMockData = (): MockData => ({
   // Add more fields as needed
 });
 
-export const mockData: MockData[] = Array.from({ length: 100 }, generateMockData);
+export const mockData: MockData[] = Array.from({ length: 70 }, generateMockData);
