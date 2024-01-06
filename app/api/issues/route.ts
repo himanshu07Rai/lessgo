@@ -5,7 +5,8 @@ import prisma from '@/prisma/client';
 import { createIssueSchema } from '@/utils/validationSchemas';
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  return new Response(JSON.stringify({ name: 'John Doe' }), {
+  const issues = await prisma.issue.findMany();
+  return NextResponse.json(issues, {
     status: 200,
   });
 }
