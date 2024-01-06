@@ -39,7 +39,8 @@
     "react/no-direct-mutation-state": "error",
     "react/no-find-dom-node": "off", // all errors are in dante file - IGNORE
     "no-unused-vars": "off", // solvable (grunt work) - 564
-    "react/no-render-return-value": "off" // all errors are in dante file - IGNORE
+    "react/no-render-return-value": "off", // all errors are in dante file - IGNORE
+    "comma-dangle": "off"
   },
   "settings": {
     "react": {
